@@ -15,3 +15,12 @@ There are several types of options that can be used with Selenium webdrivers. He
     --incognito: This option opens the browser in incognito or private browsing mode.
 
     --window-size: This option sets the size of the browser window, which can be useful for testing responsive designs.
+    
+    options = webdriver.ChromeOptions()
+options.add_argument("--headless")
+options.add_argument("--disable-gpu")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-extensions")
+options.add_argument("--start-maximized")
+options.add_argument("--incognito")
+options.add_argument("--window-size=1920,1080")
