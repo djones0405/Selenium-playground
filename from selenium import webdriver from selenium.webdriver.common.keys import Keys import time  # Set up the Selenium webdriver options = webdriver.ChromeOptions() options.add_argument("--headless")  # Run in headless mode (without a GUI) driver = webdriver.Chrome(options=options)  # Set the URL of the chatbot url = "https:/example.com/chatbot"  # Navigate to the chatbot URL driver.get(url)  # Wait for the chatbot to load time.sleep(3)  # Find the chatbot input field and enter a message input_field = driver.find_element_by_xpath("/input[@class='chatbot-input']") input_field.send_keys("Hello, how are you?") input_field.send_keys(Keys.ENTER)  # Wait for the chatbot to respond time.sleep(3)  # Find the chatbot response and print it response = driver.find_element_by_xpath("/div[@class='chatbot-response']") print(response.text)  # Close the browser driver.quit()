@@ -1,0 +1,32 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+
+# Set up the Selenium webdriver
+options = webdriver.ChromeOptions()
+options.add_argument("--headless")  # Run in headless mode (without a GUI)
+driver = webdriver.Chrome(options=options)
+
+# Set the URL of the chatbot
+url = "https://example.com/chatbot"
+
+# Navigate to the chatbot URL
+driver.get(url)
+
+# Wait for the chatbot to load
+time.sleep(3)
+
+# Find the chatbot input field and enter a message
+input_field = driver.find_element_by_xpath("//input[@class='chatbot-input']")
+input_field.send_keys("Hello, how are you?")
+input_field.send_keys(Keys.ENTER)
+
+# Wait for the chatbot to respond
+time.sleep(3)
+
+# Find the chatbot response and print it
+response = driver.find_element_by_xpath("//div[@class='chatbot-response']")
+print(response.text)
+
+# Close the browser
+driver.quit()
