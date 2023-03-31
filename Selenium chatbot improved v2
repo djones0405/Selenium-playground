@@ -1,0 +1,40 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
+
+class ChatbotTest:
+    def __init__(self, url, message):
+        self.url = url
+        self.message = message
+        self.driver = None
+
+    def setup(self):
+        options = webdriver.ChromeOptions()
+        options.add_argument('--start-maximized')
+        self.driver = webdriver.Chrome(options=options)
+
+    def test(self):
+        try:
+            self.driver.get(self.url)
+            wait = WebDriverWait(self.driver, 10)
+            input_field = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@class='chatbot-input']")))
+            input_field.send_keys(self.message)
+            input_field.send_keys(Keys.ENTER)
+            wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='chatbot-response']")))
+            response = self.driver.find_element_by_xpath("//div[@class='chatbot-response']")
+            print(response.text)
+        except Exception as e:
+            print("Error: " + str(e))
+
+    def teardown(self):
+        self.driver.quit()
+
+
+if __name__ == '__main__':
+    chatbot_test = ChatbotTest(url="https://example.com/chatbot", message="Hello, how are you?")
+    chatbot_test.setup()
+    chatbot_test.test()
+    chatbot_test.teardown()
